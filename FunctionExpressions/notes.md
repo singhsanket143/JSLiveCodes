@@ -134,3 +134,88 @@ IMO we should always and always prefer named function expression.
 
 - More debuggable stack traces. Named function expression will show up in the stack trace. So let's say when we pass anonymous function expression inside a call back this can create an issue.
 - More self-documenting code leading to better readability.
+
+# IIFE
+ - IIFE stands for Immediately invoked function expression.
+
+Now we already understand th emeaning of function expresion. IIFE is nothing but a special type of function expression which gets invoked immediately (gets called immediately) at the posotion where we iniialise it (or define it). 
+
+As we know that function expression can be easily identified if the position where we define them donot have `function` keyword as the first valid token. 
+
+So similarly in IIFE, we actually bind a function expression inside a pair of parenthesis, that makes the parenthesis the first valid token.
+
+```
+(function f() {
+        console.log("this is an IIFE");
+})
+
+```
+
+Now the above syntax has just defined a function expression, but in order to become an IIFE, it needs to get invoked (called) at the same time. 
+We can use another pair of parenthesis `()` infront of our IIFE to immediately call it. 
+```
+(function f() {
+        console.log("this is an IIFE");
+})();
+
+```
+
+Now let's say if we want to define an IIFE with parameters, then we can do something like this. 
+```
+(function f(x, y) {
+        console.log("this is an IIFE", x, y);
+})("abc", "def");
+
+```
+So here, we are actually defining the parameters of the function expression as `x` and `y` and when we are immediately invoking it, using the parenthesis, then we are passing the actual arguments to `x` and `y`. 
+
+Now if we want to return something, we can just write the normal return statement and that value will be immediately returned.
+```
+(function f(x, y) {
+        console.log("this is an IIFE", x, y);
+        return 10;
+})("abc", "def");
+```
+
+
+## Why do you want to use IIFE ? 
+
+As these are function expressions that gets immedtialy invoked, post their invocation they cannot be used again. Why this happens ? Becuase of Lexical scoping. 
+Now how can we use this feature ? 
+
+Let's say, a new intern comes to your team, and to write a feature he/she declared another global variable which was already getting used. This can create conflict. Assuming that the intern's variable getting used in their feature will not be reqd anywhere else, and the naming cannot be changed (may be it got missed in a review process or we can't give it another name) in these cases IIFE can be useful. We can write a function expression that has the whole logic and bind all the variables inside it. Hence it will not cause any conflict as these won't be available anywhere else apart form invocation.
+
+```
+(function f() {
+  // some initiation code
+  let firstVariable;
+  let secondVariable;
+})();
+```
+
+## Should we make IIFE an anonymous function expression ? 
+No: 1. becuase this makes the code less readable, 2. It makes the code hard to debug.
+
+## So where can we use anonymous function expression ? 
+We should ideally use them as less as possible, but if we want , we can use them where the function has very less and obvious piece of code. 
+
+# Arrow function expressions
+It is a shorter way to implement traditional function expressions. 
+Arrow function expressions, can be used at places where we have one liner or very obvious piece of code, as arrow function expressions are always anonymous, we can't give name to them. 
+
+ - Arrow function expression cannot of be used as constructors, because they don't have `this` binding. 
+
+How to declare an arrow function expression ? 
+
+```
+const func = (arg1, arg2, arg3) => {
+    // write your logic
+    return <some value>;
+}
+```
+
+If your function definition is a onliner then we don't need curly braces
+
+```
+const sq = (x) => x*x; 
+```
